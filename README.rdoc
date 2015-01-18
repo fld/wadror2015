@@ -1,1 +1,1 @@
-https://calm-castle-8269.herokuapp.com/
+https://calm-castle-8269.herokuapp.com/breweries
