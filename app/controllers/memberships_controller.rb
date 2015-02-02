@@ -29,6 +29,11 @@ class MembershipsController < ApplicationController
     #@membership = Membership.new(membership_params)
     @membership = Membership.new params.require(:membership).permit(:beerclub_id)
 	 @membership.user_id = current_user.id
+	 exists = Membership.where user_id: current_user.id, beerclub_id: params['membership']['beerclub_id']
+	
+    if not exists.blank?
+		 already a member
+	 end
 
     respond_to do |format|
       if @membership.save

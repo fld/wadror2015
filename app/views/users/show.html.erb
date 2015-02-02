@@ -4,7 +4,7 @@
 
 <p>has rated <%= @user.ratings.count %> beers with an average rating of: <%= @user.average_rating %></p>
 
-<p>member of: <% @user.memberships.each do |membership| %> <%= membership.beerclub_id %> <% end %></p>
+<p>member of: <% @user.memberships.each do |membership| %> <%= link_to membership.beerclub.name, membership.beerclub %> <% end %></p>
 
 <h3>ratings:</h3>
 <ul>
