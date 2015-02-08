@@ -35,6 +35,12 @@ describe "User" do
     let!(:rating) { FactoryGirl.create :realrating, user:user2, beer:beer }
     let!(:rating2) { FactoryGirl.create :realrating, user:user, beer:beer }
 
+    it "shows favorite beer and style" do
+      visit user_path(user)
+      expect(page).to have_content 'beer: iso 3'
+      expect(page).to have_content 'style: Lager'
+    end
+
     it "shows only ratings owned by the user" do
       expect(Rating.count).to eq(2)
       sign_in(username:"Pekka", password:"Foobar1")
@@ -48,5 +54,5 @@ describe "User" do
       expect { click_link('delete') }.to change(Rating, :count).by(-1)
     end
   end
-  
+
 end

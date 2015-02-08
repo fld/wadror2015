@@ -64,5 +64,8 @@ group :test do
 
   # Unit testing line coverage
   gem 'simplecov', require: false
+
+  # Measuring Test Coverage with Code Climate
+  gem "codeclimate-test-reporter", require: false
 end
 

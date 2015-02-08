@@ -13,3 +13,7 @@ deploy:
   app: calm-castle-8269
   on:
     repo: fld/wadror2015
+addons:
+  code_climate:
+    repo_token:
+      secure: "hZE8ipEkaCb1uI2oY5m+giLIfHq7TkXgoKZ1zvcJIu3n07ZeJyMNeMCqoeQW+VDkDFh9nLIuim50h9VBV0K+iHjG1IFbeUeYwkpdBogE/ZtpGLb9m8EXxWXb+fyJ1F1YKMkCBoDF1gKOCu5g5gvpWcuaBRxJ3H2PhkdXBvBlYHY="

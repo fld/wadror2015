@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe User do
   describe "favorite beer" do
-    let(:user){FactoryGirl.create(:user) }
+    let(:user){ FactoryGirl.create(:user) }
 
     it "has method for determining the favorite_beer" do
       user = FactoryGirl.create(:user)
@@ -25,6 +25,22 @@ describe User do
       best = create_beer_with_rating(25, user)
 
       expect(user.favorite_beer).to eq(best)
+    end
+  end
+
+  describe "favorite style and brewery" do
+    let!(:user) { FactoryGirl.create :user }
+    let!(:brewery1) { FactoryGirl.create :brewery, name:"Koff" }
+    let!(:brewery2) { FactoryGirl.create :brewery, name:"Olvi" }
+    let!(:beer1) { FactoryGirl.create :beer, name:"Iso L", brewery:brewery1, style:'Lager' }
+    let!(:beer2) { FactoryGirl.create :beer, name:"Iso I", brewery:brewery2, style:'IPA' }
+    let!(:rating1) { FactoryGirl.create :rating, user:user, beer:beer1, score:10 }
+    let!(:rating2) { FactoryGirl.create :rating, user:user, beer:beer2, score:5 }
+
+    it "has working methods for determining them" do
+      #byebug
+      expect(user.favorite_style).to eq('Lager')
+      expect(user.favorite_brewery).to eq(brewery1)
     end
   end
 
