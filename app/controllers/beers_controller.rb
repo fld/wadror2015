@@ -29,7 +29,10 @@ class BeersController < ApplicationController
 
     respond_to do |format|
       if @beer.save
-        redirect_to beers_path
+        format.html do
+          redirect_to beers_path
+        end
+        format.json { render json: @reservation.to_json }
       else
         format.html { render :new }
         format.json { render json: @beer.errors, status: :unprocessable_entity }

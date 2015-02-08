@@ -23,4 +23,17 @@ describe "Rating" do
     expect(beer1.ratings.count).to eq(1)
     expect(beer1.average_rating).to eq(15.0)
   end
+
+  describe "List ratings" do
+    let!(:user) { FactoryGirl.create :user }
+    let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
+    let!(:beer) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery }
+    let!(:rating) { FactoryGirl.create :realrating, user:user, beer:beer }
+
+    it "shows number of ratings" do
+      expect(Rating.count).to eq(1)
+      visit ratings_path
+      expect(page).to have_content 'Number of ratings: 1'
+    end
+  end
 end

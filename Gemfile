@@ -40,6 +40,7 @@ gem 'bcrypt', '~> 3.1.7'
 group :development, :test do
   # Unit testing
   gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-its'
 
   # Prefer sqlite3 for local development
   gem 'sqlite3'
@@ -60,5 +61,8 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'launchy'
+
+  # Unit testing line coverage
+  gem 'simplecov', require: false
 end
 
