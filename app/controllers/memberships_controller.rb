@@ -15,7 +15,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
-	 @beerclubs = Beerclub.all
+    @beerclubs = Beerclub.all
   end
 
   # GET /memberships/1/edit
@@ -28,12 +28,12 @@ class MembershipsController < ApplicationController
   def create
     #@membership = Membership.new(membership_params)
     @membership = Membership.new params.require(:membership).permit(:beerclub_id)
-	 @membership.user_id = current_user.id
-	 exists = Membership.where user_id: current_user.id, beerclub_id: params['membership']['beerclub_id']
-	
+    @membership.user_id = current_user.id
+    exists = Membership.where user_id: current_user.id, beerclub_id: params['membership']['beerclub_id']
+
     if not exists.blank?
-		 already a member
-	 end
+      already a member
+    end
 
     respond_to do |format|
       if @membership.save

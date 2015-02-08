@@ -38,6 +38,9 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  # Unit testing
+  gem 'rspec-rails', '~> 3.0'
+
   # Prefer sqlite3 for local development
   gem 'sqlite3'
  
@@ -50,5 +53,12 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+end
+
+group :test do
+  # No automatic factorygirls for development
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
 end
 
