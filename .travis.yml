@@ -1,10 +1,15 @@
 language: ruby
-
 rvm:
- - 2.2.0
-
+- 2.2.0
 script:
- - bundle exec rake db:migrate --trace
- - RAILS_ENV=test bundle exec rake db:migrate --trace
- - bundle exec rake db:test:prepare
- - bundle exec rspec -fd spec/
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: af9sA8Cp/ObkyJdTbMNbPeSCDLecQuR+LkkfwutDhhS4YADh/t/YdTb0ewSyIZ5ruBeo9nzIigeclb+reCldqs8bJcPEVDJ2McygFIkbW/niA0PZ0DRCb31HVsvO+SA8OZpFuUzing2EufptNvjzd+AM3gDMVYrw82Dl+3zQAD0=
+  app: calm-castle-8269
+  on:
+    repo: fld/wadror2015
