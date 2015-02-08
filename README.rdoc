@@ -1,3 +1,0 @@
-Available on Heroku at:
-
-https://calm-castle-8269.herokuapp.com
