@@ -40,6 +40,11 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # whitelist codeclimate.com so test coverage can be reported
+  config.after(:suite) do
+    WebMock.disable_net_connect!(:allow => 'codeclimate.com')
+  end
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
