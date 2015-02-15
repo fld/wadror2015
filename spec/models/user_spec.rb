@@ -32,14 +32,15 @@ describe User do
     let!(:user) { FactoryGirl.create :user }
     let!(:brewery1) { FactoryGirl.create :brewery, name:"Koff" }
     let!(:brewery2) { FactoryGirl.create :brewery, name:"Olvi" }
-    let!(:beer1) { FactoryGirl.create :beer, name:"Iso L", brewery:brewery1, style:'Lager' }
-    let!(:beer2) { FactoryGirl.create :beer, name:"Iso I", brewery:brewery2, style:'IPA' }
+    let!(:style1) { FactoryGirl.create :style, name:"Lager" }
+    let!(:style2) { FactoryGirl.create :style, name:"IPA" }
+    let!(:beer1) { FactoryGirl.create :beer, name:"Iso L", brewery:brewery1, style:style1 }
+    let!(:beer2) { FactoryGirl.create :beer, name:"Iso I", brewery:brewery2, style:style2 }
     let!(:rating1) { FactoryGirl.create :rating, user:user, beer:beer1, score:10 }
     let!(:rating2) { FactoryGirl.create :rating, user:user, beer:beer2, score:5 }
 
     it "has working methods for determining them" do
-      #byebug
-      expect(user.favorite_style).to eq('Lager')
+      expect(user.favorite_style).to eq(style1)
       expect(user.favorite_brewery).to eq(brewery1)
     end
   end

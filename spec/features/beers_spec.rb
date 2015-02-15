@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "Beer" do
   let!(:user) { FactoryGirl.create :user }
   let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
+  let!(:style) { FactoryGirl.create :style }
 
   before :each do
     sign_in(username:"Pekka", password:"Foobar1")
@@ -11,7 +12,7 @@ describe "Beer" do
   it "can be added by a logged in user and redirects to beers page" do
     visit new_beer_path
     fill_in('beer[name]', with:'Spec Testing Beer')
-    select('IPA', from:'beer[style]')
+    select('IPA', from:'beer[style_id]')
     select('Koff', from:'beer[brewery_id]')
 
     expect{
@@ -23,7 +24,7 @@ describe "Beer" do
 
   it "can't be added without a valid name and displays an error" do
     visit new_beer_path
-    select('IPA', from:'beer[style]')
+    select('IPA', from:'beer[style_id]')
     select('Koff', from:'beer[brewery_id]')
 
     click_button "Create Beer"

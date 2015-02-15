@@ -3,7 +3,8 @@ require 'rails_helper'
   describe Beer do
 
     describe "has name and style" do
-      let(:beer){ Beer.create name:"TestBeer", style:"Lager" }
+      let!(:style) { FactoryGirl.create :style }
+      let(:beer){ Beer.create name:"TestBeer", style:style }
     
       it "is saved" do
         expect(beer).to be_valid

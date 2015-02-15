@@ -31,14 +31,15 @@ describe "User" do
     let!(:user) { FactoryGirl.create :user }
     let!(:user2) { FactoryGirl.create :user2 }
     let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
-    let!(:beer) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery }
+    let!(:style) { FactoryGirl.create :style }
+    let!(:beer) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery, style:style }
     let!(:rating) { FactoryGirl.create :realrating, user:user2, beer:beer }
     let!(:rating2) { FactoryGirl.create :realrating, user:user, beer:beer }
 
     it "shows favorite beer and style" do
       visit user_path(user)
       expect(page).to have_content 'beer: iso 3'
-      expect(page).to have_content 'style: Lager'
+      expect(page).to have_content 'style: IPA'
     end
 
     it "shows only ratings owned by the user" do
