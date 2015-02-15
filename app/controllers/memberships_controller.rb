@@ -26,20 +26,20 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    #@membership = Membership.new(membership_params)
-    @membership = Membership.new params.require(:membership).permit(:beerclub_id)
-    @membership.user_id = current_user.id
-    exists = Membership.where user_id: current_user.id, beerclub_id: params['membership']['beerclub_id']
+    @membership = Membership.new(beerclub_id: membership_params[:beerclub_id], user_id: current_user.id)
+    club = Beerclub.find membership_params[:beerclub_id]
+    exists = current_user.beerclubs.include?(club)
 
-    if not exists.blank?
-      already a member
+    if exists
+      @membership.errors.add(club.name, " you are already a member of this club")
     end
 
     respond_to do |format|
-      if @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
+      if not exists and @membership.save
+        format.html { redirect_to club, notice: current_user.username + ", welcome to the club!" }
         format.json { render :show, status: :created, location: @membership }
       else
+        @beerclubs = Beerclub.all
         format.html { render :new }
         format.json { render json: @membership.errors, status: :unprocessable_entity }
       end
@@ -64,8 +64,9 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1.json
   def destroy
     @membership.destroy
+    club = Beerclub.find membership_params[:beerclub_id]
     respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
+      format.html { redirect_to club, notice: 'Membership was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

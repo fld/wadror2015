@@ -4,6 +4,20 @@
 
 <p>Founded in <%= @beerclub.founded %> at <%= @beerclub.city %></p>
 
+<% if current_user %>
+  <% if not current_user.beerclubs.include?(@beerclub) %>
+    <%= form_for(@membership) do |f| %>
+      <%= f.hidden_field :beerclub_id %>
+      <%= f.submit value:"join the club" %>
+    <% end %>
+  <% else %>
+    <%= form_for(@membership, method: "delete") do |f| %>
+      <%= f.hidden_field :beerclub_id %>
+      <%= f.submit value: "end the membership" %>
+    <% end %>
+  <% end %>
+<% end %>
+
 <h3>Members:</h3>
 <ul>
   <% @beerclub.users.each do |user| %>
@@ -11,5 +25,6 @@
   <% end %>
 </ul>
 
+<br>
 <%= link_to 'Edit', edit_beerclub_path(@beerclub) %> |
 <%= link_to 'Back', beerclubs_path %>

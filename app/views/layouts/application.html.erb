@@ -10,23 +10,23 @@
   <div class="navibar">
     <%= link_to 'breweries', breweries_path %>
     <%= link_to 'beers', beers_path %>
-	 <%= link_to 'ratings', ratings_path %>
-	 <%= link_to 'users', users_path %>
-	 <%= link_to 'clubs', beerclubs_path %>
+	  <%= link_to 'ratings', ratings_path %>
+	  <%= link_to 'users', users_path %>
+	  <%= link_to 'clubs', beerclubs_path %>
+    <%= link_to 'places', places_path %>
 
-	 <% if session[:user_id].nil? %>
-	   | <%= link_to 'login', signin_path %>
-	   / <%= link_to 'signup', signup_path %>
+	  <% if session[:user_id].nil? %>
+	    | <%= link_to 'login', signin_path %>
+	    / <%= link_to 'signup', signup_path %>
     <% end %>
 	    
 	 <% if not session[:user_id].nil? %>
-      | <b>Logged in</b>: <i><%= link_to current_user.username, user_path(current_user) %></i>
-      <%= link_to 'logout', signout_path, method: :delete %>
-		| <%= link_to 'Rate beers!', new_rating_path %>
-		| <%= link_to 'Join clubs!', new_membership_path %>
+     | <b>Logged in</b>: <i><%= link_to current_user.username, user_path(current_user) %></i>
+     <%= link_to 'logout', signout_path, method: :delete %>
+		 | <%= link_to 'Rate beers!', new_rating_path %>
+		 | <%= link_to 'Join clubs!', new_membership_path %>
     <% end %>
-
- </div>
+  </div>
 
   <%= yield %>
 
