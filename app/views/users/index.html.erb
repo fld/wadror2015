@@ -14,7 +14,7 @@
       <tr>
         <td>
           <%= user.username %> 
-          <% if not user.enabled and current_user.admin? %>
+          <% if not user.enabled and current_user and current_user.admin? %>
             <span class="label label-info">account frozen</span>
           <% end %>
         </td>

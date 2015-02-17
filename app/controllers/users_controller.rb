@@ -28,6 +28,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.enabled = true
+    @user.admin = false
 
     respond_to do |format|
       if @user.save
