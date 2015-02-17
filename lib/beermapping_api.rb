@@ -5,33 +5,32 @@ class BeermappingApi
   end
 
   private
+    def self.fetch_places_in(city)
+      url = "http://beermapping.com/webservice/loccity/#{key}/"
 
-  def self.fetch_places_in(city)
-    url = "http://beermapping.com/webservice/loccity/#{key}/"
+      response = HTTParty.get "#{url}#{ERB::Util.url_encode(city)}"
+      places = response.parsed_response["bmp_locations"]["location"]
 
-    response = HTTParty.get "#{url}#{ERB::Util.url_encode(city)}"
-    places = response.parsed_response["bmp_locations"]["location"]
+      return [] if places.is_a?(Hash) and places['id'].nil?
 
-    return [] if places.is_a?(Hash) and places['id'].nil?
-
-    places = [places] if places.is_a?(Hash)
-    places.inject([]) do | set, place |
-      set << Place.new(place)
+      places = [places] if places.is_a?(Hash)
+      places.inject([]) do | set, place |
+        set << Place.new(place)
+      end
     end
-  end
 
-  def self.get_place(id)
-    url = "http://beermapping.com/webservice/locquery/#{key}/"
-  
-    response = HTTParty.get "#{url}/#{id}"
-    place = response.parsed_response["bmp_locations"]["location"]
+    def self.get_place(id)
+      url = "http://beermapping.com/webservice/locquery/#{key}/"
+    
+      response = HTTParty.get "#{url}/#{id}"
+      place = response.parsed_response["bmp_locations"]["location"]
 
-    return nil if place.is_a?(Hash) and place['id'].nil?
-    return Place.new(place)
-  end
+      return nil if place.is_a?(Hash) and place['id'].nil?
+      return Place.new(place)
+    end
 
-  def self.key
-    raise "BEERMAP_APIKEY env variable not defined" if ENV['BEERMAP_APIKEY'].nil?
-    ENV['BEERMAP_APIKEY']
-  end
+    def self.key
+      raise "BEERMAP_APIKEY env variable not defined" if ENV['BEERMAP_APIKEY'].nil?
+      ENV['BEERMAP_APIKEY']
+    end
 end

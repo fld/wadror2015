@@ -8,12 +8,12 @@
   <% if not current_user.beerclubs.include?(@beerclub) %>
     <%= form_for(@membership) do |f| %>
       <%= f.hidden_field :beerclub_id %>
-      <%= f.submit value:"join the club" %>
+      <%= f.submit value:"join the club", class:'btn btn-info' %>
     <% end %>
   <% else %>
     <%= form_for(@membership, method: "delete") do |f| %>
       <%= f.hidden_field :beerclub_id %>
-      <%= f.submit value: "end the membership" %>
+      <%= f.submit value: "end the membership", class:'btn btn-info' %>
     <% end %>
   <% end %>
 <% end %>
@@ -26,5 +26,4 @@
 </ul>
 
 <br>
-<%= link_to 'Edit', edit_beerclub_path(@beerclub) %> |
-<%= link_to 'Back', beerclubs_path %>
+<%= edit_and_destroy_buttons(@beerclub) %>

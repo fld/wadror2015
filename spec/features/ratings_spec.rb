@@ -33,7 +33,7 @@ describe "Rating" do
     it "shows number of ratings" do
       expect(Rating.count).to eq(1)
       visit ratings_path
-      expect(page).to have_content 'Number of ratings: 1'
+      expect(page).to have_content 'Total number of ratings: 1'
     end
   end
 end

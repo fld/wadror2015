@@ -24,17 +24,18 @@ RSpec.describe StylesController, type: :controller do
   # Style. As you add validations to Style, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name:'test', desc:'testing' }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name:nil, desc:nil }
   }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # StylesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let!(:user) { FactoryGirl.create :user }
+  let(:valid_session) { { user_id: user.to_param } }
 
   describe "GET #index" do
     it "assigns all styles as @styles" do
@@ -103,14 +104,15 @@ RSpec.describe StylesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name:'test2', desc:'testing more' }
       }
 
       it "updates the requested style" do
         style = Style.create! valid_attributes
         put :update, {:id => style.to_param, :style => new_attributes}, valid_session
         style.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:style).attributes.symbolize_keys[:name]).to eq(new_attributes[:name])
+        expect(assigns(:style).attributes.symbolize_keys[:desc]).to eq(new_attributes[:desc])
       end
 
       it "assigns the requested style as @style" do

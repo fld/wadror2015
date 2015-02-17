@@ -1,5 +1,9 @@
 require 'rails_helper'
 
+def current_user
+  return nil
+end
+
 RSpec.describe "styles/show", type: :view do
   before(:each) do
     @style = assign(:style, Style.create!(

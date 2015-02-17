@@ -1,9 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<p><h2><%= @user.username %></h2></p>
-
+<p>
+  <h2>
+    <%= @user.username %> 
+    <% if not @user.enabled %>
+      <span class="label label-info">account frozen</span>
+      <%= link_to "reactivate", toggle_enabled_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+    <% else %>
+      <%= link_to "disable account", toggle_enabled_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+    <% end %>
+  </h2>
+</p>
 <p>has rated <%= @user.ratings.count %> beers with an average rating of: <%= @user.average_rating %></p>
-
 <p>member of: <% @user.memberships.each do |membership| %> <%= link_to membership.beerclub.name, membership.beerclub %> <% end %></p>
 
 <h3>favorites:</h3>
@@ -15,17 +23,13 @@
 <h3>ratings:</h3>
 <ul>
   <% @user.ratings.each do |rating| %>
-    <li> 
-	   <%= rating %>
-		<% if @user == current_user %>
-		  <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <li>
+      <%= rating %>
+  		<% if @user == current_user %>
+  		  <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
       <% end %>
-	 </li>
+	  </li>
   <% end %>
 </ul>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<% if @user == current_user %>
-  <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<% end %>
-<%= link_to 'Back', users_path %>
+<%= edit_and_destroy_buttons(@user) %>

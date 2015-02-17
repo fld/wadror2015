@@ -6,8 +6,9 @@ class User < ActiveRecord::Base
   has_many :beerclubs, through: :memberships
   has_secure_password
 
-  validates :username, uniqueness: true, length: { minimum: 3, maximum: 15 }
-  validates :password, :format => {:with => /.*(?=.{4,})(?=.*\d)(?=.*[A-Z]).*/, message: ">=4 characters, 1 caps, 1 digit"}
+  validates :username, uniqueness: true, length: { in: 3..15 }
+  validates :password, :format => { :with => /.*(?=.{4,})(?=.*\d)(?=.*[A-Z]).*/, 
+                                     message: ">=4 characters, 1 caps, 1 digit" }
 
   def favorite_beer
     return nil if ratings.empty?
@@ -33,5 +34,10 @@ class User < ActiveRecord::Base
       list[k] = result
     end
     return list.max_by { |a, b| b }[0]
+  end
+
+  def self.active(n)
+    most_active = User.all.sort_by{ |u| -(u.ratings.count||0) }
+    most_active.first(n)
   end
 end

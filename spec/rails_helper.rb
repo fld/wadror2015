@@ -14,6 +14,7 @@ CodeClimate::TestReporter.start
 require 'capybara/rspec'
 require 'simplecov'
 SimpleCov.start :rails do
+  coverage_dir 'public/coverage'
   add_group "Models", "app/models"
   add_group "Controllers", "app/controllers"
   add_group "Helpers", "app/helpers"
