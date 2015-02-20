@@ -39,6 +39,13 @@ Rails.application.routes.draw do
   get 'places', to: 'places#index'
   post 'places', to:'places#search'
 
+  get 'beerlist', to:'beers#list'
+  get 'ngbeerlist', to:'beers#nglist'
+
+  get 'brewerylist', to:'breweries#list'
+
+  get 'auth/:provider/callback', to: 'sessions#create_oauth'
+
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 

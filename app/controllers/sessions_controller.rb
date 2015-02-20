@@ -16,6 +16,22 @@ class SessionsController < ApplicationController
     end
   end
 
+  def create_oauth
+    nick = env["omniauth.auth"].info.nickname
+    user = User.find_by username: nick
+    if not user
+      rand = (('0'..'9').to_a+('a'..'z').to_a+('A'..'Z').to_a).shuffle.first(60).join
+      user = User.create username:nick, password:rand, enabled:true, admin:false
+      user.save
+    end
+    if user.id
+      session[:user_id] = user.id
+      redirect_to user_path(user), notice: "Welcome back!"
+    else
+      redirect_to :back, notice: "User not found"
+    end
+  end
+
   def destroy
     session[:user_id] = nil
     redirect_to :root

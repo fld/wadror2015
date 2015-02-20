@@ -23,6 +23,7 @@
       <li><%= link_to 'logout', signout_path, method: :delete %></li>
     <% else %>
       <li><%= link_to 'login', signin_path %></li>
+      <li><%= link_to 'login via. GitHub', "auth/github" %></li>
       <li><%= link_to 'signup', signup_path %></li>
     <% end %>
   </ul>

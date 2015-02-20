@@ -1,18 +1,33 @@
 class RatingsController < ApplicationController
   before_action :ensure_that_signed_in, except: [:index, :show]
-  
+
   def index
     @ratings = Rating.all
-    @top_ratings = Rating.recent(5)
-    @top_beers = Beer.top(5)
-    @top_breweries = Brewery.top(5)
-    @top_styles = Style.top(5)
-    @top_users = User.active(5)
+
+    @top_ratings = Rails.cache.fetch("top 5 ratings", expires_in:10.minutes) do
+      Rating.recent(5)
+    end
+ 
+    @top_beers = Rails.cache.fetch("top 5 beers", expires_in:10.minutes) do
+      Beer.top(5)
+    end
+
+    @top_breweries = Rails.cache.fetch("top 5 breweries", expires_in:10.minutes) do
+      Brewery.top(5)
+    end
+
+    @top_styles = Rails.cache.fetch("top 5 styles", expires_in:10.minutes) do
+      Style.top(5)
+    end
+
+    @top_users = Rails.cache.fetch("top 5 users", expires_in:10.minutes) do
+      User.active(5)
+    end
   end
 
   def new
     @rating = Rating.new
-    @beers = Beer.all
+    @beers =  Beer.all
   end
 
   def create

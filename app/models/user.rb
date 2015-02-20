@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true, length: { in: 3..15 }
   validates :password, :format => { :with => /.*(?=.{4,})(?=.*\d)(?=.*[A-Z]).*/, 
                                      message: ">=4 characters, 1 caps, 1 digit" }
+  validates :admin, inclusion: {in: [true, false]}
+  validates :enabled, inclusion: {in: [true, false]}
 
   def favorite_beer
     return nil if ratings.empty?

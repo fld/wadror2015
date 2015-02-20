@@ -6,6 +6,9 @@
   <thead>
     <tr>
       <th>Username</th>
+      <th>rated beers</th>
+      <th>total ratings</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -13,11 +16,13 @@
     <% @users.each do |user| %>
       <tr>
         <td>
-          <%= user.username %> 
+          <%= link_to user.username, user %>
           <% if not user.enabled and current_user and current_user.admin? %>
             <span class="label label-info">account frozen</span>
           <% end %>
         </td>
+        <td><%= user.beers.size %></td>
+        <td><%= user.ratings.size %></td>
         <td><%= link_to 'Show', user, class:'btn btn-info' %></td>
       </tr>
     <% end %>

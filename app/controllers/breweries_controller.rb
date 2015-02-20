@@ -1,12 +1,36 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_signed_in, except: [:index, :show, :list]
+  before_action :skip_if_cached, only:[:index]
+
+  def skip_if_cached
+    @order = params[:order] || 'name'
+    return render :index if fragment_exist?( "brewerylist-#{@order}"  )
+  end
+
+  def list
+  end
 
   # GET /breweries
   # GET /breweries.json
   def index
-    @active_breweries = Brewery.active
-    @retired_breweries = Brewery.retired
+    #@active_breweries = Brewery.active
+    #@retired_breweries = Brewery.retired
+    @breweries = Brewery.all
+
+    order = params[:order] || 'name'
+    @breweries = case order
+      when 'name' then @breweries.sort_by{ |b| b.name }
+      when 'year' then @breweries.sort_by{ |b| b.year }
+    end
+
+    reverse = params[:reverse] || "false"
+    if reverse == "true"
+      @breweries = @breweries.reverse
+    end
+
+    @active_breweries = @breweries.select{ |k,v| k["active"] == true }
+    @retired_breweries = @breweries.select{ |k,v| k["active"] == false }
   end
 
   # GET /breweries/1
@@ -30,6 +54,7 @@ class BreweriesController < ApplicationController
 
     respond_to do |format|
       if @brewery.save
+        ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
         format.html { redirect_to @brewery, notice: 'Brewery was successfully created.' }
         format.json { render :show, status: :created, location: @brewery }
       else
@@ -44,6 +69,7 @@ class BreweriesController < ApplicationController
   def update
     respond_to do |format|
       if @brewery.update(brewery_params)
+        ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
         format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
         format.json { render :show, status: :ok, location: @brewery }
       else
@@ -56,6 +82,7 @@ class BreweriesController < ApplicationController
   # DELETE /breweries/1
   # DELETE /breweries/1.json
   def destroy
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     @brewery.destroy
     respond_to do |format|
       format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }
