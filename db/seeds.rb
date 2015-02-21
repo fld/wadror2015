@@ -37,15 +37,15 @@ c1 = Beerclub.create name:"Testclub", founded:2000, city:"Helsinki"
 c2 = Beerclub.create name:"Hangover", founded:2009, city:"Las Vegas"
 c3 = Beerclub.create name:"Emptyclub", founded:2009, city:"Nowhere"
 
-m1 = Membership.create user:u1, beerclub:c2
-m2 = Membership.create user:u2, beerclub:c2
-m3 = Membership.create user:u3, beerclub:c2
-m4 = Membership.create user:u5, beerclub:c1
+m1 = Membership.create user:u1, beerclub:c2, confirmed: true
+m2 = Membership.create user:u2, beerclub:c2, confirmed: true
+m3 = Membership.create user:u3, beerclub:c2, confirmed: false
+m4 = Membership.create user:u5, beerclub:c1, confirmed: true
 
-users = 100
-breweries = 50
-beers_in_brewery = 40
-ratings_per_user = 30
+users = 50
+breweries = 25
+beers_in_brewery = 20
+ratings_per_user = 15
 
 (1..users).each do |i|
   User.create! username:"user_#{i}", password:"Passwd1", password_confirmation:"Passwd1", admin:true, enabled:true

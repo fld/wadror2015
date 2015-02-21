@@ -12,6 +12,7 @@ class BeerclubsController < ApplicationController
   # GET /beerclubs/1.json
   def show
     @users = User.all
+    @memberships = Membership.all
     @membership = Membership.new
     if not current_user.nil?
       if not current_user.beerclubs.include? @beerclub
@@ -36,9 +37,10 @@ class BeerclubsController < ApplicationController
   # POST /beerclubs.json
   def create
     @beerclub = Beerclub.new(beerclub_params)
+    @membership = Membership.create user:current_user, beerclub:@beerclub, confirmed:true
 
     respond_to do |format|
-      if @beerclub.save
+      if @beerclub.save and @membership.save
         format.html { redirect_to @beerclub, notice: 'Beerclub was successfully created.' }
         format.json { render :show, status: :created, location: @beerclub }
       else

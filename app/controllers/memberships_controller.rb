@@ -2,6 +2,13 @@ class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
   before_action :ensure_that_signed_in, except: [:index, :show]
 
+  def toggle_confirmed
+    membership = Membership.find(params[:id])
+    membership.update_attribute :confirmed, (not membership.confirmed)
+    new_status = membership.confirmed? ? true : false
+    redirect_to :back, notice:"membership confirmed status changed to #{new_status}"
+  end
+
   # GET /memberships
   # GET /memberships.json
   def index
@@ -27,7 +34,9 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    @membership = Membership.new(beerclub_id: membership_params[:beerclub_id], user_id: current_user.id)
+    @membership = Membership.new(membership_params)
+    @membership.user = current_user
+    @membership.confirmed = false
     club = Beerclub.find membership_params[:beerclub_id]
     exists = current_user.beerclubs.include?(club)
 

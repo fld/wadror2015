@@ -12,7 +12,16 @@
   </h2>
 </p>
 <p>has rated <%= @user.ratings.count %> beers with an average rating of: <%= @user.average_rating %></p>
-<p>member of: <% @user.memberships.each do |membership| %> <%= link_to membership.beerclub.name, membership.beerclub %> <% end %></p>
+<p>member of: 
+  <% @user.memberships.each do |membership| %> 
+    <%= link_to membership.beerclub.name, membership.beerclub if membership.confirmed %> 
+  <% end %>
+</p>
+<p>applied membership to: 
+  <% @user.memberships.each do |membership| %> 
+    <%= link_to membership.beerclub.name, membership.beerclub if not membership.confirmed %> 
+  <% end %>
+</p>
 
 <h3>favorites:</h3>
 <ul>

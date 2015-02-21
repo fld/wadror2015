@@ -1,7 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <h2><%= @beerclub.name %></h2>
-
 <p>Founded in <%= @beerclub.founded %> at <%= @beerclub.city %></p>
 
 <% if current_user %>
@@ -20,8 +19,21 @@
 
 <h3>Members:</h3>
 <ul>
-  <% @beerclub.users.each do |user| %>
-    <li><%= link_to user.username, user %></li>
+  <% @memberships.where(beerclub:@beerclub, confirmed:true).each do |membership| %>
+    <li><%= link_to membership.user.username, membership.user %></li>
+  <% end %>
+</ul>
+
+<h3>Outstading applications:</h3>
+<ul>
+  <% cu_is_member = @memberships.exists?(user:current_user, beerclub:@beerclub, confirmed:true) if current_user %>
+  <% @memberships.where(beerclub:@beerclub, confirmed:false).each do |membership| %>
+    <li>
+      <%= link_to membership.user.username, membership.user %>
+      <% if cu_is_member %>
+        <%= link_to "confirm", toggle_confirmed_membership_path(membership.id), method: :post, class: "btn btn-primary" %>
+      <% end %>
+    </li>
   <% end %>
 </ul>
 
