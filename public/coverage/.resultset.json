@@ -239,8 +239,8 @@
         null,
         2,
         2,
-        1,
         4,
+        1,
         1,
         null,
         1,
@@ -429,6 +429,10 @@
         1,
         1,
         1,
+        null,
+        1,
+        0,
+        null,
         null
       ],
       "/home/fld/wadror2015/ratebeer/app/models/membership.rb": [
@@ -533,9 +537,8 @@
         1,
         0,
         0,
-        null,
         0,
-        null,
+        0,
         0,
         null,
         null,
@@ -676,6 +679,6 @@
         null
       ]
     },
-    "timestamp": 1424463629
+    "timestamp": 1424529820
   }
 }
