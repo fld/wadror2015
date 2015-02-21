@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require "omniauth"
+require "omniauth-github"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -24,6 +26,10 @@ module Ratebeer
     config.active_record.raise_in_transactional_callbacks = true
 	  config.autoload_paths += Dir["#{Rails.root}/lib"]
     #config.active_record.logger = Logger.new('log/development_sql.log')
+
+    Rails.application.config.middleware.use OmniAuth::Builder do
+      provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
+    end
 
     # Force HTTPS
     #config.force_ssl = true
